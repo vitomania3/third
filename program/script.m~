@@ -1,0 +1,22 @@
+clear;
+clc;
+
+t1 = 2.9;
+t2 = 2.9;
+N = 10;
+filename = '';
+alpha = 0.011;
+reachsetdyn(t1, t2, alpha, N, filename);
+
+[fix1, fix2] = findFixPoints(alpha);
+hold on;
+
+plot(fix1, 0, 'o', 'MarkerSize', 6, 'MarkerFaceColor', [1 0 0]);
+plot(fix2, 0, 'o', 'MarkerSize', 6, 'MarkerFaceColor', [0 0 1]);
+
+% print('p3', '-dpng')
+
+%%
+
+tmp = linspace(0, 2 * pi, 50);
+for i = 1 : 

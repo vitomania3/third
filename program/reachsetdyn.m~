@@ -1,0 +1,44 @@
+function reachsetdyn(t1, t2, alpha, N, filename)
+    [X, Y, X1, X2, array, array1] = reachset(t1, alpha);
+    if size(X, 1) == 0 || size(Y, 1) == 0 || size(X1, 1) == 0 || size(X2, 1) == 0
+        ar
+    if abs(t1 - t2) < 0.0001
+        [X, Y, X1, X2, array, array1] = reachset(t1, alpha);
+        hold on;
+        grid on;
+        for i = 1 : size(array, 2)
+           plot(array{i}.x, array{i}.y, 'g', 'LineWidth', 1.5);
+           plot(array1{i}.x, array1{i}.y, 'g', 'LineWidth', 1.5);
+        end
+        plot(X, Y, 'b', 'LineWidth', 1.5);
+        plot(X1, X2, 'r', 'LineWidth', 1.5); 
+    elseif filename == ""
+        [X, Y, X1, X2, array, array1] = reachset(t1, alpha);
+        for i = 1 : N
+            tau = t1 + (t2 - t1) * i / N;
+            [X, Y, X1, X2, array, array1] = reachset(tau, alpha);
+            plot(X, Y, 'b', 'LineWidth', 1.5);
+            axis([min(X), max(X), min(Y), max(Y)]);
+            grid on;
+            title('Boundary of the reachable set');
+            pause(0.5);
+        end
+    else
+        v = VideoWriter(strcat(filename, '.avi'));
+        v.Quality = 95;
+        v.FrameRate = 5;
+        open(v);
+        for i = 1 : N
+            tau = t1 + (t2 - t1) * i / N;
+            [X, Y, X1, X2, array, array1] = reachset(tau, alpha);
+            plot(X, Y, 'b', 'LineWidth', 1.5);
+            axis([min(X), max(X), min(Y), max(Y)]);
+            grid on;
+            title('Boundary of the reachable set');
+            frame = getframe(gcf);
+            writeVideo(v,frame);
+        end
+        close(v);
+    end
+end
+
